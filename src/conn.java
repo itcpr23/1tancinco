@@ -10,8 +10,9 @@
  */
 public class conn {
     
-    protected String dbname = "aib_com";
-    protected String url = "jdbc:mysql://localhost/"+dbname;
+    
+    protected String driver = "com.mysql.jdbc.Driver";
+    protected String url = "jdbc:mysql://localhost/aib_com?";
     protected String username = "root";
     protected String password = ""; 
     

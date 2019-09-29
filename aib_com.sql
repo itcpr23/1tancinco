@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.0
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 08, 2019 at 10:51 AM
--- Server version: 10.1.26-MariaDB
--- PHP Version: 7.1.8
+-- Generation Time: Sep 12, 2019 at 11:57 PM
+-- Server version: 10.4.6-MariaDB
+-- PHP Version: 7.3.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,27 +25,47 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `product`
+--
+
+CREATE TABLE `product` (
+  `ID` int(11) NOT NULL,
+  `Product_name` varchar(50) NOT NULL,
+  `Qty` int(3) NOT NULL,
+  `Price` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `reg`
 --
 
 CREATE TABLE `reg` (
   `id` int(11) NOT NULL,
-  `firstname` varchar(50) NOT NULL DEFAULT '',
-  `lastname` varchar(50) NOT NULL DEFAULT '',
   `username` varchar(50) NOT NULL DEFAULT '',
-  `password` text NOT NULL
+  `password` varchar(50) NOT NULL DEFAULT '',
+  `lastname` varchar(50) NOT NULL DEFAULT '',
+  `first_name` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `reg`
 --
 
-INSERT INTO `reg` (`id`, `firstname`, `lastname`, `username`, `password`) VALUES
-(1, 'aibibi', 'a92489ac2fc5ae878cddab1a11247aed', 'tancinco', 'aibii');
+INSERT INTO `reg` (`id`, `username`, `password`, `lastname`, `first_name`) VALUES
+(1, 'aibibi', 'a92489ac2fc5ae878cddab1a11247aed', 'tancinco', 'aibii'),
+(2, 'aibii', '20ec28d4db381c343f7906766cd06ce4', 'Tancinco', 'aibii');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `product`
+--
+ALTER TABLE `product`
+  ADD PRIMARY KEY (`ID`);
 
 --
 -- Indexes for table `reg`
@@ -58,10 +78,17 @@ ALTER TABLE `reg`
 --
 
 --
+-- AUTO_INCREMENT for table `product`
+--
+ALTER TABLE `product`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `reg`
 --
 ALTER TABLE `reg`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;COMMIT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
