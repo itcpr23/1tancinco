@@ -51,6 +51,31 @@ public void showdataintables(){
         } catch (SQLException ex) {
             Logger.getLogger(addproduct.class.getName()).log(Level.SEVERE, null, ex);
         }
+    
+}
+public void searchbox(String prodname){
+        String sql="Select * from product where id like ? or product_name like ?;";
+         DefaultTableModel mod = (DefaultTableModel) prodtable.getModel();
+         mod.setRowCount(0);
+         try{
+             Class.forName("com.mysql.jdbc.Driver");
+    Connection con = DriverManager.getConnection(cn.url, cn.username, cn.password);
+    PreparedStatement pstmt=con.prepareStatement(sql);
+    
+    pstmt.setString(1,"%"+prodname+"%");
+    pstmt.setString(2,"%"+prodname+"%");
+    
+    
+    ResultSet rs=pstmt.executeQuery();
+    
+     while(rs.next()){
+        mod.addRow(new Object[]{rs.getString("id"),rs.getString("product_name"),rs.getString("qty"),rs.getString("price")});
+    }
+         } catch (ClassNotFoundException ex) {
+        Logger.getLogger(addproduct.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (SQLException ex) {
+        Logger.getLogger(addproduct.class.getName()).log(Level.SEVERE, null, ex);
+    }
 }
 
     @SuppressWarnings("unchecked")
@@ -70,6 +95,8 @@ public void showdataintables(){
         prodtable = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        searc_tf = new javax.swing.JTextField();
+        jButton6 = new javax.swing.JButton();
 
         adding.setMinimumSize(new java.awt.Dimension(263, 220));
         adding.setUndecorated(true);
@@ -153,7 +180,7 @@ public void showdataintables(){
 
             },
             new String [] {
-                "ID", "Product Name", "Price", "Qty"
+                "ID", "PRODUCT", "PRICE", "PRICE"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -169,6 +196,7 @@ public void showdataintables(){
             prodtable.getColumnModel().getColumn(0).setResizable(false);
             prodtable.getColumnModel().getColumn(1).setResizable(false);
             prodtable.getColumnModel().getColumn(2).setResizable(false);
+            prodtable.getColumnModel().getColumn(3).setResizable(false);
         }
 
         jButton1.setText("Add");
@@ -185,6 +213,25 @@ public void showdataintables(){
             }
         });
 
+        searc_tf.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        searc_tf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searc_tfActionPerformed(evt);
+            }
+        });
+        searc_tf.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searc_tfKeyReleased(evt);
+            }
+        });
+
+        jButton6.setText("Search");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -192,29 +239,37 @@ public void showdataintables(){
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1)
-                        .addGap(22, 22, 22))
-                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jButton1))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                        .addComponent(jButton2)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(searc_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(8, 8, 8))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(33, Short.MAX_VALUE)
+                .addGap(72, 72, 72)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(searc_tf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
-                        .addGap(205, 205, 205))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addComponent(jButton2))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();
@@ -265,6 +320,24 @@ showdataintables();
 adding.setVisible(false);        // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void searc_tfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searc_tfActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searc_tfActionPerformed
+
+    private void searc_tfKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searc_tfKeyReleased
+        String prodname = searc_tf.getText();
+        this.searchbox(prodname);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searc_tfKeyReleased
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        String prodname = searc_tf.getText();
+        this.searchbox(prodname);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton6ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -306,6 +379,7 @@ adding.setVisible(false);        // TODO add your handling code here:
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -314,5 +388,6 @@ adding.setVisible(false);        // TODO add your handling code here:
     private javax.swing.JTextField prod;
     private javax.swing.JTable prodtable;
     private javax.swing.JSpinner qty;
+    private javax.swing.JTextField searc_tf;
     // End of variables declaration//GEN-END:variables
 }
