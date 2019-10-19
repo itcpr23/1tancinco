@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class addproduct_frame {
     conn conn = new conn();
+    
     public int addproduct(String prodname, int prodqty, int prodprice){
         int x = 0;
         String sql = "insert into product values (null,?,?,?)";
@@ -37,6 +38,7 @@ public class addproduct_frame {
 
     
 }
+         
 public void deleteprod(int id){
     try{
         Class.forName(conn.driver);
@@ -50,5 +52,28 @@ public void deleteprod(int id){
         } catch (SQLException ex) {
             Logger.getLogger(addproduct_frame.class.getName()).log(Level.SEVERE, null, ex);
         }
+}
+  public int editproduct(int id, String prodname, float price){
+        int f=0;
+       
+       String sql= "Update product set product_name =?, price = ? where id = ?";
+         
+         try{
+             
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = (Connection) DriverManager.getConnection(conn.url,conn.username,conn.password);
+            PreparedStatement pstmt=(PreparedStatement)con.prepareStatement(sql);
+            
+            pstmt.setString(1, prodname);
+            pstmt.setFloat(2, price);
+            pstmt.setInt(3, id);
+            
+          f = pstmt.executeUpdate();
+    }   catch (ClassNotFoundException ex) {
+            Logger.getLogger(addproduct_frame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(addproduct_frame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+ return f;
 }
 }

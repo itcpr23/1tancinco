@@ -34,6 +34,7 @@ public void clearFields(){
     }
     conn cn = new conn();
     addproduct_frame aprod = new addproduct_frame();
+    int id = 0;
 
 public void showdataintables(){
     try{
@@ -69,7 +70,7 @@ public void searchbox(String prodname){
     ResultSet rs=pstmt.executeQuery();
     
      while(rs.next()){
-        mod.addRow(new Object[]{rs.getString("id"),rs.getString("product_name"),rs.getString("qty"),rs.getString("price")});
+        mod.addRow(new Object[]{rs.getString("id"),rs.getString("product"),rs.getString("qty"),rs.getString("price")});
     }
          } catch (ClassNotFoundException ex) {
         Logger.getLogger(addproduct.class.getName()).log(Level.SEVERE, null, ex);
@@ -90,15 +91,17 @@ public void searchbox(String prodname){
         qty = new javax.swing.JSpinner();
         price = new javax.swing.JFormattedTextField();
         jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        addbutton = new javax.swing.JButton();
+        editbutton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         prodtable = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        searc_tf = new javax.swing.JTextField();
+        search_tf = new javax.swing.JTextField();
         jButton6 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
-        adding.setMinimumSize(new java.awt.Dimension(263, 220));
+        adding.setMinimumSize(new java.awt.Dimension(341, 253));
         adding.setUndecorated(true);
 
         jLabel1.setText("Product Name:");
@@ -111,7 +114,7 @@ public void searchbox(String prodname){
 
         qty.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
 
-        price.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+        price.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
 
         jButton3.setText("CANCEL");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -120,10 +123,17 @@ public void searchbox(String prodname){
             }
         });
 
-        jButton4.setText("ADD");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        addbutton.setText("ADD");
+        addbutton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                addbuttonActionPerformed(evt);
+            }
+        });
+
+        editbutton.setText("Edit");
+        editbutton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editbuttonActionPerformed(evt);
             }
         });
 
@@ -143,13 +153,14 @@ public void searchbox(String prodname){
                         .addGroup(addingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(prod)
                             .addComponent(qty)
-                            .addComponent(price, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 12, Short.MAX_VALUE))
+                            .addComponent(price, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(addingLayout.createSequentialGroup()
                         .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addGap(32, 32, 32)
+                        .addComponent(addbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(editbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(76, Short.MAX_VALUE))
         );
         addingLayout.setVerticalGroup(
             addingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -169,8 +180,9 @@ public void searchbox(String prodname){
                 .addGap(18, 18, 18)
                 .addGroup(addingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
-                    .addComponent(jButton4))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(addbutton)
+                    .addComponent(editbutton))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -180,7 +192,7 @@ public void searchbox(String prodname){
 
             },
             new String [] {
-                "ID", "PRODUCT", "PRICE", "PRICE"
+                "ID", "PRODUCT", "QUANTITY", "PRICE"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -213,15 +225,15 @@ public void searchbox(String prodname){
             }
         });
 
-        searc_tf.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        searc_tf.addActionListener(new java.awt.event.ActionListener() {
+        search_tf.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        search_tf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searc_tfActionPerformed(evt);
+                search_tfActionPerformed(evt);
             }
         });
-        searc_tf.addKeyListener(new java.awt.event.KeyAdapter() {
+        search_tf.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                searc_tfKeyReleased(evt);
+                search_tfKeyReleased(evt);
             }
         });
 
@@ -232,44 +244,51 @@ public void searchbox(String prodname){
             }
         });
 
+        jButton5.setText("Edit");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(jButton1))
+                    .addComponent(jButton2)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton2)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(searc_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(8, 8, 8))
+                        .addComponent(search_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(72, 72, 72)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(searc_tf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(106, 106, 106)
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(24, Short.MAX_VALUE))
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton5))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(search_tf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         pack();
@@ -283,7 +302,7 @@ public void searchbox(String prodname){
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-         int tbl = prodtable.getSelectedRow();
+        int tbl = prodtable.getSelectedRow();
         if (tbl == -1){
             JOptionPane.showMessageDialog(rootPane, "Please Select Product To Be Deleted", "ERROR MESSAGE", JOptionPane.ERROR_MESSAGE);
         }else{
@@ -300,7 +319,7 @@ public void searchbox(String prodname){
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void addbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addbuttonActionPerformed
 String product = prod.getText();
 int qty1 = Integer.parseInt(qty.getValue().toString());
 int price1 = Integer.parseInt(price.getValue().toString());
@@ -314,29 +333,79 @@ showdataintables();
 
 
 // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_addbuttonActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 adding.setVisible(false);        // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void searc_tfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searc_tfActionPerformed
+    private void search_tfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_tfActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_searc_tfActionPerformed
+    }//GEN-LAST:event_search_tfActionPerformed
 
-    private void searc_tfKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searc_tfKeyReleased
-        String prodname = searc_tf.getText();
+    private void search_tfKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_search_tfKeyReleased
+        String prodname = search_tf.getText();
         this.searchbox(prodname);
 
         // TODO add your handling code here:
-    }//GEN-LAST:event_searc_tfKeyReleased
+    }//GEN-LAST:event_search_tfKeyReleased
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        String prodname = searc_tf.getText();
+        String prodname = search_tf.getText();
         this.searchbox(prodname);
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        //int i=jtb.getSelectedRow();
+        int a=prodtable.getSelectedRow();
+
+        if(a==-1){
+            JOptionPane.showMessageDialog(rootPane, "Please Select Row to Edit");
+        }
+        else{
+            adding.setVisible(true);
+            adding.setLocationRelativeTo(null);
+            this.setVisible(false);
+            qty.setEnabled(false);
+           
+            addbutton.setEnabled(false);
+
+            id =Integer.parseInt(prodtable.getValueAt(a, 0).toString());
+
+            String pname=prodtable.getValueAt(a,1).toString();
+            String pprice=prodtable.getValueAt(a, 3).toString();
+            int pqty =Integer.parseInt( prodtable.getValueAt(a, 2).toString());
+
+            prod.setText(pname);
+            qty.setValue(pqty);
+            price.setText(pprice);
+
+        }
+
+        // TODO add your handling code here cute c mamai;
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void editbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editbuttonActionPerformed
+
+        String newprodname = prod.getText();
+        float newprice =Float.parseFloat(price.getValue().toString());
+
+        int f = aprod.editproduct(id, newprodname, newprice);
+
+        if(f==1){
+            JOptionPane.showMessageDialog(adding,"Product Edit Successfully!");
+            adding.setVisible(false);
+            this.showdataintables();
+            this.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(adding, "There Was a Problem Editing Product","ERROR",JOptionPane.ERROR_MESSAGE);
+
+        }
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editbuttonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -374,11 +443,13 @@ adding.setVisible(false);        // TODO add your handling code here:
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addbutton;
     private javax.swing.JFrame adding;
+    private javax.swing.JButton editbutton;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -388,6 +459,6 @@ adding.setVisible(false);        // TODO add your handling code here:
     private javax.swing.JTextField prod;
     private javax.swing.JTable prodtable;
     private javax.swing.JSpinner qty;
-    private javax.swing.JTextField searc_tf;
+    private javax.swing.JTextField search_tf;
     // End of variables declaration//GEN-END:variables
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 12, 2019 at 11:57 PM
+-- Generation Time: Oct 19, 2019 at 12:27 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.8
 
@@ -35,6 +35,15 @@ CREATE TABLE `product` (
   `Price` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `product`
+--
+
+INSERT INTO `product` (`ID`, `Product_name`, `Qty`, `Price`) VALUES
+(4, 'Milo', 7, 8),
+(5, 'Bearbrand', 8, 8),
+(6, 'Bannie', 1, 100);
+
 -- --------------------------------------------------------
 
 --
@@ -55,7 +64,8 @@ CREATE TABLE `reg` (
 
 INSERT INTO `reg` (`id`, `username`, `password`, `lastname`, `first_name`) VALUES
 (1, 'aibibi', 'a92489ac2fc5ae878cddab1a11247aed', 'tancinco', 'aibii'),
-(2, 'aibii', '20ec28d4db381c343f7906766cd06ce4', 'Tancinco', 'aibii');
+(2, 'aibii', '20ec28d4db381c343f7906766cd06ce4', 'Tancinco', 'aibii'),
+(3, 'juv', '61f95b0b3daff12d80bbb73804042dbd', 'juv', 'juv');
 
 --
 -- Indexes for dumped tables
@@ -81,13 +91,13 @@ ALTER TABLE `reg`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `reg`
 --
 ALTER TABLE `reg`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
