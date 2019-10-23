@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -76,4 +77,24 @@ public void deleteprod(int id){
         }
  return f;
 }
+  
+  public int editQty(int id, int quantity){
+     int x =0;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(conn.url,conn.username,conn.password);
+            PreparedStatement ps = con.prepareStatement("update product set qty = (qty+?) where id = ?");
+            ps.setInt(1, quantity);
+            ps.setInt(2, id);
+            ps.executeUpdate();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(addproduct_frame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(addproduct_frame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+     
+     
+     
+     return x;
+  }
 }
